@@ -4,10 +4,11 @@
 src = $(wildcard *.cpp)
 obj = $(src:.cpp=.o)
 
+CC = clang++ -Wno-c++11-extensions
 LDFLAGS = -lGL -lglut -lpng -lz -lm
 
 myprog: $(obj)
-	g++ -o $@ $^
+	$(CC) -o $@ $^
 
 .PHONY: clean
 clean:
