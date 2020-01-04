@@ -5,16 +5,20 @@
 #include "common.h"
 #include "buffer.h"
 
+using namespace std;
+
 char eofChar = 0x7F;
 int inputPosition;
-int listflag = true;
+int listFlag = true;
+
+TListBuffer list;
 
 TTextInBuffer::TTextInBuffer(const char *pInputFileName, TAbortCode ac)
-  : pfileName(new char[strlen(pInputFileName) + 1])
+  : pFileName(new char[strlen(pInputFileName) + 1])
 {
   strcpy(pFileName, pInputFileName);
-  file.open(pFileName, ios::in|ios::nocreate);
-  if (!file.good()) AbortTrnslation(ac);
+  file.open(pFileName, ios::in);
+  if (!file.good()) AbortTranslation(ac);
 }
 
 char TTextInBuffer::GetChar(void)
@@ -45,7 +49,7 @@ char TTextInBuffer::PutBackChar(void)
 TSourceBuffer::TSourceBuffer(const char *pSourceFileName)
   : TTextInBuffer(pSourceFileName, abortSourceFileOpenFailed) 
 {
-  if (listflag) list.Initialize(pSourceFileName);
+  if (listFlag) list.Initialize(pSourceFileName);
   GetLine();
 }
 
@@ -67,10 +71,10 @@ char TSourceBuffer::GetLine(void)
   return *pChar;
 }
 
-const int maxPrintLineLenght = 80;
+const int maxPrintLineLength = 80;
 const int maxLinesPerPage    = 50;
 
-TListBuffer list;
+
 
 void TListBuffer::PrintPageHeader(void)
 {
@@ -100,7 +104,7 @@ void TListBuffer::Initialize(const char *pFileName)
 
 void TListBuffer::PutLine(void)
 {
-  if (listFlag && (linecount == maxLinesPerPage)) printPageHeader();
+  if (listFlag && (lineCount == maxLinesPerPage)) PrintPageHeader();
 
   text[maxPrintLineLength] = '\0';
 
