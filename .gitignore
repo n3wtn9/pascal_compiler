@@ -3,3 +3,6 @@ myprog
 
 # emacs
 \#*\#
+
+# gnu make
+*.a

@@ -13,3 +13,4 @@ myprog: $(obj)
 .PHONY: clean
 clean:
 	rm -f $(obj) myprog
+
